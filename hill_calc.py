@@ -36,7 +36,7 @@ class hillGUI(Frame):
         self.inputlist.bind("<Button-1>",self.__varChoice)
     
         # This is a similar command for the selection of unit
-        #self.unitlist.bind("<Button-1>",self.__unitChoice)
+        self.unitlist.bind("<Button-1>",self.__unitChoice)
     
         # Finally, this bind reads in whatever value is in the text box when the user hits return
         # and carries out the unit conversion
@@ -44,6 +44,11 @@ class hillGUI(Frame):
         for i in range(len(self.inputfield)):
             self.inputfield[i].bind("<Return>",self.__calcConversion)
                
+    def createUnitDict(self,mydict,mykeys,myvalues):
+        '''This method takes a set of units and values, and creates a dictionary to store them in'''
+        for i in range(len(myvalues)):
+            mydict[mykeys[i]] = myvalues[i]
+            
     def createWidgets(self):
         '''This method creates all widgets and adds them to the GUI'''
         
@@ -58,9 +63,9 @@ class hillGUI(Frame):
         self.varlabel.grid(row=0,column=0,sticky=W)
         
         # Second text label asking user which units are being used
-        #self.unitlabel = Text(self,height=1,width=20)
-        #self.unitlabel.insert(END,"Which Units?")
-        #self.unitlabel.grid(row=0,column=1,sticky=W)
+        self.unitlabel = Text(self,height=2,width=20)
+        self.unitlabel.insert(END,"Planet Mass Units?\n (a=AU, Ms=Msol)")
+        self.unitlabel.grid(row=0,column=1,sticky=W)
         
         # Third text label asking user for numerical value
         
@@ -83,13 +88,17 @@ class hillGUI(Frame):
         
         # Add a unit list (several combinations of units allowed)
         
-        #self.unitlist = Listbox(self, height=4,selectmode=SINGLE)
-        #self.unitlist.grid(row=1,column=1,rowspan=4, sticky=W)
+        self.unitlist = Listbox(self, height=4,selectmode=SINGLE)
+        self.unitlist.grid(row=1,column=1,rowspan=4, sticky=W)
         
-        #unitcombos = ('cgs','Solar units', 'Galactic Units') 
+        self.massunits = ('Earth Masses','Neptune Masses', 'Jupiter Masses', 'Solar Masses') 
+        self.massvalues = ( 3.00343905235e-06, 5.1500311727e-5, 0.000954588419846,1.0)
     
-        #for item in unitcombos:
-        #    self.unitlist.insert(END,item)
+        self.massdict = {}
+        self.createUnitDict(self.massdict, self.massunits,self.massvalues)
+    
+        for item in self.massunits:
+            self.unitlist.insert(END,item)
     
         # Number Entry Boxes (and Text Labels)
         
@@ -144,6 +153,34 @@ class hillGUI(Frame):
         # Highlight current choice in red
         self.inputlist.itemconfig(self.varchoice, selectbackground='red')
 
+    def __unitChoice(self,event):
+        '''Handles the selection of units'''
+        num = 0
+        # Find which number is selected
+        try:
+            num = self.unitlist.curselection()[0]       
+            self.unitchoice = int(num)
+            
+        except:
+            self.unitchoice = 0
+            return
+        
+        # Get the string (i.e. which unit is selected)
+        selection= self.unitlist.get(self.unitchoice)
+        
+        print selection, " chosen"
+        
+        # Highlight current choice in red
+        self.unitlist.itemconfig(self.unitchoice, selectbackground='red')
+        
+        # If statement defines units being used
+        
+        self.massconvert = self.massdict[selection]
+        
+        
+        # Remove all text in the output box, and tell user to define units
+        self.outputtext.delete("1.0",index2=END)
+        self.outputtext.insert(END, "Now Enter Values")
         
     # Handler takes current state of GUI, and calculates results
     def __calcConversion(self,event):
@@ -156,7 +193,7 @@ class hillGUI(Frame):
         a=float(a)
         
         mp = self.inputfield[1].get()
-        mp=float(mp)
+        mp=float(mp)*self.massconvert
         
         ms = self.inputfield[2].get()
         ms = float(ms)

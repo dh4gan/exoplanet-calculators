@@ -9,7 +9,7 @@
 from Tkinter import Frame, Button, Entry, Listbox,Text, END,SINGLE,W
 
 class photGUI(Frame):
-    """The base class for the hill_calc GUI"""
+    """The base class for the phot_calc GUI"""
     
     # This is the constructor for the GUI
     def __init__(self,master=None):
