@@ -215,7 +215,7 @@ class hillGUI(Frame):
             value = rh
             
         
-        # Remove all text in the output box
+        # Remove all text in the output box and insert new stuff
         self.outputtext.delete("1.0",index2=END)
         self.outputtext.insert(END,str(self.paramlist[self.varchoice])+":    "+str(value))
         

@@ -5,7 +5,7 @@
 # We start by defining the GUI as a class (derived from the base class Frame), with methods
 # to create the elements inside the window, and methods to handle events 
 
-from Tkinter import Frame, Button, Entry, Listbox,Text, END,SINGLE,W
+from Tkinter import Frame, Button, Entry, Text, END,W
 
 class HZGUI(Frame):
     """The base class for the HZ GUI"""
@@ -21,7 +21,7 @@ class HZGUI(Frame):
         self.grid()
         
         # This loop generates rows and columns in the grid
-        for i in range(10):
+        for i in range(11):
             self.rowconfigure(i,minsize=10)
         for i in range(2):
             self.columnconfigure(i,minsize=10)
@@ -46,16 +46,19 @@ class HZGUI(Frame):
         # Create Widgets in order of appearance
         # This is not necessary, but makes code easier to read
         
+        
+        width_default= 30
+        
         # Start with text asking for Luminosity
-        self.varlabel = Text(self,height=2, width=20)
-        self.varlabel.insert(END,"Enter Luminosity\n(Solar Luminosities)")
+        self.varlabel = Text(self,height=2, width=width_default)
+        self.varlabel.insert(END,"Luminosity\n(Solar Luminosities)")
         
         # Place widget on the Frame according to a grid
         self.varlabel.grid(row=0,column=0,sticky=W)
         
         # Second text label asking for Teff
-        self.unitlabel = Text(self,height=2,width=20)
-        self.unitlabel.insert(END,"Enter Effective Temperature \n(K)")
+        self.unitlabel = Text(self,height=2,width=width_default)
+        self.unitlabel.insert(END,"Effective Temperature \n(K)")
         self.unitlabel.grid(row=0,column=1,sticky=W)
         
         # Number Entry Boxes for L and Teff (and Text Labels)
@@ -73,17 +76,20 @@ class HZGUI(Frame):
         self.inputfield[-1].insert(END,"5780.0")
         self.inputfield[-1].grid(row=1,column=1)
         
-        
-
-        self.nHZ = 7
+    
+        self.nHZ = 7 # Different types of HZ boundary
         
         # Text Output Box
-        self.outputtext = Text(self, height=self.nHZ, width=40)
-        self.outputtext.grid(row=4,column=0,columnspan=2,rowspan=10,sticky=W)
+        self.outputtext = Text(self, height=self.nHZ+1, width=width_default)
+        self.outputtext.grid(row=4,column=0,rowspan=self.nHZ,sticky=W)
         self.outputtext.insert(END, "WAITING: ")
+        
+        self.outputval = Text(self,height=self.nHZ+1,width=width_default)
+        self.outputval.grid(row=4,column=1,rowspan =self.nHZ,sticky=W)
+        
         # Create the Quit Button
         self.quitButton=Button(self,text='Quit',command=self.quit)
-        self.quitButton.grid(row =8, column=1, sticky='E')
+        self.quitButton.grid(row =15, column=1, sticky='E')
              
 
     # Event handler functions begin here    
@@ -95,7 +101,10 @@ class HZGUI(Frame):
     # Handler takes current state of GUI, and calculates results
     def __calcConversion(self,event):
         '''This method takes the current state of all GUI variables, calculates one of four equations'''
-        print 'Calculating'
+        
+        
+        self.outputtext.delete("1.0",index2=END)
+        self.outputval.delete("1.0",index2=END)
         
         nboundaries = self.nHZ
         
@@ -156,6 +165,8 @@ class HZGUI(Frame):
 
         boundarynames = ['Recent Venus','Runaway Greenhouse', 'Moist Greenhouse','Maximum Greenhouse', 'Early Mars', '2AU Cloud Limit ', 'CO2 condensation']
         
+        innerouterchange = 2 # This denotes the last value for inner boundaries
+        
         rhz = [0.0]*nboundaries
         
         lum = float(self.inputfield[0].get())
@@ -176,16 +187,27 @@ class HZGUI(Frame):
         self.outputtext.delete("1.0",index2=END)
         
         # If Luminosity is 0, then print Seff
-        # Otherwise, print rhz
-        
-        
+        # Otherwise, print rhz            
          
         if(lum!=0.0):
             for i in range(nboundaries):
-                self.outputtext.insert(END, str(boundarynames[i]) +":\t\t"+str(rhz[i]) +"\n")
+                self.outputtext.insert(END, str(boundarynames[i]) + " (distance) \n")
+                self.outputval.insert(END, str(rhz[i]) +"\n")
+                if(i==innerouterchange):
+                    self.outputtext.insert(END, str("-------\n"))
+                    self.outputval.insert(END, str("-------\n"))
+                
             
        
-        if(lum==0.0):
+        if(lum==0.0):            
+            for i in range(nboundaries):
+                self.outputtext.insert(END, str(boundarynames[i]) + " (flux) \n")
+                self.outputval.insert(END, str(seff[i]) +"\n")
+                if(i==innerouterchange):
+                    self.outputtext.insert(END, str("-------\n"))
+                    self.outputval.insert(END, str("-------\n"))
+                
+            
             self.outputtext.insert(END,"ERROR")
         
         
