@@ -21,8 +21,8 @@ while fail:
         fail = False
         
     if "S" in systemtype or "s" in systemtype:
-        systemtype = "P"
-        print "P type (circumbinary) system selected"
+        systemtype = "S"
+        print "S type (circumbinary) system selected"
         fail = False
 
 if "P" not in systemtype and "S" not in systemtype:

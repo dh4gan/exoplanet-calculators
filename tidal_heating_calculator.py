@@ -6,7 +6,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
 
 # All calculations are in cgs
 
@@ -22,10 +21,6 @@ mearth = 5.9736e27
 rearth = 6.371e7
 
 AU = 1.496e13
-
-print msol, rsol
-print mjup, rjup
-print mearth, rearth
 
 # Known tidal heating rates
 
@@ -60,57 +55,21 @@ npoints = 200
 
 aroche = (3.0*mprim/(2.0*np.pi*rhosec))**0.333
 
-print 'Inner boundary given by Roche limit: ', aroche/AU
+print "The Primary has mass", mprim/mjup, " Jupiter masses"
+print "The Secondary has mass", msec/mearth, " Earth masses"
+print "The Secondary has radius", rsec/rearth, " Earth radii"
+print "The Secondary density is ", rhosec, " g cm-3"
 
-amin = 0.002*AU
-amax = 0.007*AU
+print 'Roche limit: ', aroche/AU
 
-emin = 0.0001
-emax = 0.1
 
-semimaj = np.linspace(amin, amax, num=npoints)
-eccentricity = np.linspace(emin, emax, num=npoints)
+a = input("Enter the Secondary semimajor axis: ")
+ecc = input("Enter the Secondary eccentricity: ")
 
-tidal = np.zeros((npoints,npoints))
+a = a*AU
 
-for i in range(npoints):
-    a = semimaj[i]
-    for j in range(npoints):        
-        ecc = eccentricity[j]                                
-        
-        tidal[j,i] = 21.0*rhosec*rhosec*ecc*ecc*rsec**5*(G*mprim)**2.5
-        
-        tidal[j,i] = tidal[j,i]/(38.0*gamma*Q*a**7.5)
+tidal = 21.0*rhosec*rhosec*ecc*ecc*rsec**5*(G*mprim)**2.5
+tidal = tidal/(38.0*gamma*Q*a**7.5)
         
         
-        
-# Plot figure
-
-
-fig1 = plt.figure()
-ax = fig1.add_subplot(111)
-ax.set_xlabel('Semimajor Axis (AU)', fontsize = 16)
-ax.set_ylabel('Eccentricity', fontsize = 16)
-plt.pcolor(semimaj/AU, eccentricity, tidal, cmap = 'Spectral', vmax = 5000.0)
-colourbar=plt.colorbar()
-colourbar.set_label(r'Tidal Heating per Unit Area ($erg \,s^{-1} cm^{-2}$)', fontsize=16)
-
-# plot contours corresponding to Io, Europa tidal heating levels
-
-contours = plt.contour(semimaj/AU, eccentricity,tidal, levels = (fIo, fEuropa_upper, fEuropa_lower), colors='white')
-
-fmt = {}
-strs = [ 'Io', 'Europa Upper Limit', 'Europa Lower Limit']
-for l,s in zip( contours.levels, strs ):
-    fmt[l] = s
-
-plt.clabel(contours, contours.levels,fmt=fmt,fontsize=14)
-
-
-# Add vertical lines showing Io and Europa positions
-plt.vlines(amoons,ymin = emin, ymax = emax, colors='white', linestyles='dashed')
-
-#plt.vlines(aroche/AU,ymin = emin, ymax = emax, colors='red')
-
-plt.show()
-
+print "The tidal heating in this configuration is", tidal, "erg s-1 cm-2"

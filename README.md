@@ -11,3 +11,7 @@ kep_calc.py - Calculates quantities related to Keplerian velocities and periods
 phot_calc.py - Converts photon wavelength/frequency/energy into other units
 
 calc_binary_planet_stability_limits.py - Given the configuration of a binary star system (P or S type), this calculates the minimum semimajor axis a planet can occupy while maintaining a stable orbit
+
+tidal_heating_calculator.py - Given a primary and secondary body, calculates tidal heating on the secondary body
+
+tidal_heating_plotter.py - Plots the above calculation for a variety of secondary orbits
