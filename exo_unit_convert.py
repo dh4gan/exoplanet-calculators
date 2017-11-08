@@ -37,13 +37,13 @@ class exo(Frame):
         
         self.distunits = ('pc','AU','Solar Radii','Jupiter Radii', 'Saturn Radii','Neptune Radii ','Earth Radii','Mars Radii', 'Moon Radii','cm')
         # All values in cm 
-        self.distvalues = (3.08568025e18, 1.496e13, 6.995e10,7.1492e8,6.0268e8,2.4764e8,6.371e7,3.396e7,1.73814e7,1.0)
+        self.distvalues = (3.08568025e18, 1.496e13, 6.995e10,7.1492e9,6.0268e9,2.4764e9,6.371e8,3.396e8,1.73814e8,1.0)
         
         # Masses
         
         self.massunits = ('Solar Masses', 'Jupiter Masses','Saturn Masses', 'Neptune Masses', 'Earth Masses', 'Mars Masses', 'Moon Masses',  'kg','g')
         # All values in g
-        self.massvalues = (1.988920e33,1.8986e30,5.6846e29, 1.0243e29, 5.9736e27,6.4185e26, 7.3477e25, 1000.0,1.0)
+        self.massvalues = (1.988920e33,1.8986e30,5.6834e29, 1.0243e29, 5.9736e27,6.4185e26, 7.3477e25, 1000.0,1.0)
         
         # Time
         
