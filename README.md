@@ -1,17 +1,19 @@
-The scripts in this repo each launch a Tkinter GUI for the user to input values and calculate a quantity relating to exoplanet studies.
+# Exoplanet Calculators
 
-exo_unit_convert.py - Converts distance, time and mass units
+This repository contains a set of useful calculators for those topics relative to exoplanets.  The Python scripts in this repo each launch a Tkinter GUI for the user to input values and calculate a quantity.  I've been using these as an aid to my day-to-day research - I hope that others find them as useful as I have
 
-hill_calc.py - Calculates quantities related to the Hill Radius
+ 1. `exo_unit_convert.py` - Converts distance, time and mass units
 
-HZ_calc.py - Calculates the habitable zone boundaries around a single star (according to boundaries set by Kopparapu et al 2013)
+ 2. `hill_calc.py` - Calculates quantities related to the Hill Radius
 
-kep_calc.py - Calculates quantities related to Keplerian velocities and periods
+ 3. `HZ_calc.py` - Calculates the habitable zone boundaries around a single star (according to boundaries set by Kopparapu et al 2013)
 
-phot_calc.py - Converts photon wavelength/frequency/energy into other units
+ 4. `kep_calc.py` - Calculates quantities related to Keplerian orbits (velocities and periods)
 
-calc_binary_planet_stability_limits.py - Given the configuration of a binary star system (P or S type), this calculates the minimum semimajor axis a planet can occupy while maintaining a stable orbit
+ 5. `phot_calc.py` - Converts photon wavelength/frequency/energy into other units
 
-tidal_heating_calculator.py - Given a primary and secondary body, calculates tidal heating on the secondary body
+ 6. `calc_binary_planet_stability_limits.py` - Given the configuration of a binary star system (P or S type), this calculates the minimum semimajor axis a planet can occupy while maintaining a stable orbit
 
-tidal_heating_plotter.py - Plots the above calculation for a variety of secondary orbits
+ 7. `tidal_heating_calculator.py` - Given a primary and secondary body, calculates tidal heating on the secondary body
+
+ 8. `tidal_heating_plotter.py` - Plots the above calculation for a variety of secondary orbits
